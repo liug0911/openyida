@@ -40,20 +40,21 @@ coverage/
 # AI 工具配置（保留 CLAUDE.md）
 .claude/*
 !.claude/CLAUDE.md
+
 # ── openyida 用户工作区 ────────────────────────────
 # 登录态 & Schema 缓存（敏感信息，不入库）
-openyida/.cache/*
-!openyida/.cache/.gitkeep
-!openyida/.cache/demo-*
+project/.cache/*
+!project/.cache/.gitkeep
+!project/.cache/demo-*
 
 # 自定义页面编译产物
-openyida/pages/dist/*
-!openyida/pages/dist/.gitkeep
+project/pages/dist/*
+!project/pages/dist/.gitkeep
 
 # 用户自定义页面源码（保留 demo 示例）
-openyida/pages/src/*
-!openyida/pages/src/demo-*
+project/pages/src/*
+!project/pages/src/demo-*
 
 # 需求文档（保留 demo 示例）
-openyida/prd/*
-!openyida/prd/demo-*
+project/prd/*
+!project/prd/demo-*
