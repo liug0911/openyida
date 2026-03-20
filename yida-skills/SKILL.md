@@ -38,7 +38,7 @@ metadata:
 
 | 依赖 | 版本 | 用途 |
 |------|------|------|
-| Node.js | ≥ 16 | 运行 openyida |
+| Node.js | ≥ 18 | 运行 openyida |
 
 ```bash
 # 安装 openyida（首次使用前执行）
