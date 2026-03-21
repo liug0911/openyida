@@ -112,6 +112,7 @@ openyida - 宜搭命令行工具
   configure-process <appType> <formUuid> <processDefinitionFile> [processCode]  配置并发布流程
   create-process <appType> <formTitle> <fieldsJsonFile> <processDefinitionFile>  创建流程表单（一体化）
   create-process <appType> --formUuid <formUuid> <processDefinitionFile>         复用已有表单创建流程
+  logicflow create <appType> <formUuid> <flowName> [选项]                        创建集成&自动化逻辑流
 
 示例：
   openyida login
@@ -471,6 +472,48 @@ async function main() {
       }
       const { run: runCreateProcess } = require('../lib/create-process');
       await runCreateProcess(args);
+      break;
+    }
+
+    case 'logicflow': {
+      const subCommand = args[0];
+      const subArgs = args.slice(1);
+
+      if (!subCommand || subCommand === '--help' || subCommand === '-h') {
+        console.log(`
+用法: openyida logicflow <子命令> [参数]
+
+子命令:
+  create <appType> <formUuid> <flowName> [选项]  创建集成&自动化逻辑流
+
+选项:
+  --process-code <code>          已有逻辑流的 processCode（LPROC-xxx 格式）
+  --receivers <userId,...>       接收钉钉工作通知的用户 ID（逗号分隔）
+  --title <title>                通知标题（支持 #{fieldId-ComponentType}# 引用表单字段）
+  --content <content>            通知内容（支持 #{fieldId-ComponentType}# 引用表单字段）
+  --events <insert,update>       触发事件，默认 insert（可选：insert/update/delete/comment）
+  --data-form-uuid <formUuid>    获取单条数据的目标表单 UUID（B 表单）
+  --data-condition <bFieldId:bFieldName:aFieldId[:componentType]>  过滤条件（可多次传入）
+  --publish                      保存后立即发布（默认仅保存为草稿）
+
+示例:
+  openyida logicflow create APP_XXX FORM-XXX "新增记录通知" --receivers user123 --publish
+`);
+        break;
+      }
+
+      if (subCommand === 'create') {
+        if (subArgs.length < 3) {
+          console.error('用法: openyida logicflow create <appType> <formUuid> <flowName> [选项]');
+          process.exit(1);
+        }
+        const { run: runLogicflow } = require('../lib/create-logicflow');
+        await runLogicflow(subArgs);
+      } else {
+        console.error(`未知的 logicflow 子命令: ${subCommand}`);
+        console.error('使用 openyida logicflow --help 查看可用子命令');
+        process.exit(1);
+      }
       break;
     }
     case 'cdn-config': {
